@@ -6,7 +6,7 @@ import Calendar from './components/Calendar';
 function App() {
 	return (
 		<div className="App">
-			<Calendar />
+			<Calendar style={{ marginTop: 16, marginLeft: -1 }} />
 		</div>
 	);
 }

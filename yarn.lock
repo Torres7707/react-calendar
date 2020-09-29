@@ -5169,6 +5169,13 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
+hoist-non-react-statics@^3.0.0:
+  version "3.3.2"
+  resolved "https://registry.npm.taobao.org/hoist-non-react-statics/download/hoist-non-react-statics-3.3.2.tgz?cache=0&sync_timestamp=1594339290904&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhoist-non-react-statics%2Fdownload%2Fhoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
+  integrity sha1-7OCsr3HWLClpwuxZ/v9CpLGoW0U=
+  dependencies:
+    react-is "^16.7.0"
+
 hosted-git-info@^2.1.4:
   version "2.8.8"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.8.tgz#7539bd4bc1e0e0a895815a2e0262420b12858488"
@@ -7088,19 +7095,15 @@ mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.5"
 
-mobx-react-lite@>=2.2.0:
-  version "2.2.2"
-  resolved "https://registry.npm.taobao.org/mobx-react-lite/download/mobx-react-lite-2.2.2.tgz#87c217dc72b4e47b22493daf155daf3759f868a6"
-  integrity sha1-h8IX3HK05HsiST2vFV2vN1n4aKY=
-
-mobx-react@^6.3.0:
-  version "6.3.0"
-  resolved "https://registry.npm.taobao.org/mobx-react/download/mobx-react-6.3.0.tgz#7d11799f988bbdadc49e725081993b18baa20329"
-  integrity sha1-fRF5n5iLva3EnnJQgZk7GLqiAyk=
+mobx-react@^5.4.3:
+  version "5.4.4"
+  resolved "https://registry.npm.taobao.org/mobx-react/download/mobx-react-5.4.4.tgz#b3de9c6eabcd0ed8a40036888cb0221ab9568b80"
+  integrity sha1-s96cbqvNDtikADaIjLAiGrlWi4A=
   dependencies:
-    mobx-react-lite ">=2.2.0"
+    hoist-non-react-statics "^3.0.0"
+    react-lifecycles-compat "^3.0.2"
 
-mobx@^5.15.7:
+mobx@^5.9.0:
   version "5.15.7"
   resolved "https://registry.npm.taobao.org/mobx/download/mobx-5.15.7.tgz#b9a5f2b6251f5d96980d13c78e9b5d8d4ce22665"
   integrity sha1-uaXytiUfXZaYDRPHjptdjUziJmU=
@@ -8961,10 +8964,15 @@ react-error-overlay@^6.0.7:
   resolved "https://registry.npm.taobao.org/react-error-overlay/download/react-error-overlay-6.0.7.tgz#1dcfb459ab671d53f660a991513cb2f0a0553108"
   integrity sha1-Hc+0WatnHVP2YKmRUTyy8KBVMQg=
 
-react-is@^16.12.0, react-is@^16.8.1, react-is@^16.8.4:
+react-is@^16.12.0, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-lifecycles-compat@^3.0.2:
+  version "3.0.4"
+  resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
+  integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
 react-scripts@3.4.3:
   version "3.4.3"
@@ -10632,10 +10640,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@~3.7.2:
-  version "3.7.5"
-  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.7.5.tgz?cache=0&sync_timestamp=1601103110912&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha1-BpLiH2X9QQi5MwI4qsEd0uF3oa4=
+typescript@3.2.4:
+  version "3.2.4"
+  resolved "https://registry.npm.taobao.org/typescript/download/typescript-3.2.4.tgz?cache=0&sync_timestamp=1601277664065&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-3.2.4.tgz#c585cb952912263d915b462726ce244ba510ef3d"
+  integrity sha1-xYXLlSkSJj2RW0YnJs4kS6UQ7z0=
 
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
