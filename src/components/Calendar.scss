@@ -1,0 +1,105 @@
+.calendar-component-all {
+    width: 310px;
+    height: 397px;
+    background: #00225E;
+    box-shadow: 0px 0px 10px 0px rgba(43, 121, 255, 0.8);
+    border-radius: 4px;
+    border: 1px solid #2B79FF;
+
+    .calendar-switch-all {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 40px;
+        width: 100%;
+        border-bottom: 1px solid rgba(43, 121, 255, 0.3);
+        color: #C2D7FA;
+        // padding: 0 20px;
+
+        .calendar-left-all,
+        .calendar-right-all {
+            display: flex;
+            align-items: center;
+
+            .calendar-switch-year,
+            .calendar-switch-month {
+                width: 19px;
+                height: 19px;
+                fill: currentColor;
+                cursor: pointer;
+            }
+        }
+
+        .calendar-middle-content {
+            font-size: 14px;
+            font-weight: 500;
+            color: #FFFFFF;
+        }
+    }
+
+    .calendar-week-all {
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        height: 22px;
+        padding: 0 10px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #FFFFFF;
+
+        div {
+            width: 41.5px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .calendar-data-all {
+        width: 290px;
+        height: 300px;
+        border: 1px solid rgba(43, 121, 255, 0.5);
+        margin: 8px 9px 0;
+
+        .calendar-data-gruop {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(43, 121, 255, 0.5);
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .calendar-data-single {
+                width: 41.5px;
+                height: 48.8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #C2D7FA;
+                border-right: 1px solid rgba(43, 121, 255, 0.5);
+                cursor: pointer;
+
+                &:hover {
+                    background: rgba(43, 121, 255, 0.3);
+                }
+
+                &:last-child {
+                    border-right: none;
+                }
+            }
+
+            .move {
+                color: rgba(194, 215, 250, 0.6);
+                background: transparent !important;
+                cursor: not-allowed;
+
+            }
+
+            .active {
+                background: rgba(43, 121, 255, 1) !important
+            }
+        }
+    }
+}

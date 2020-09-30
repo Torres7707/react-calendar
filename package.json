@@ -17,7 +17,9 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "sass-loader": "^10.0.2",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "mobx": "^5.15.7",
+    "mobx-react": "^6.3.0"
   },
   "scripts": {
     "build-css": "node-sass-chokidar src/ -o src/",
@@ -41,9 +43,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "mobx": "^5.15.7",
-    "mobx-react": "^6.3.0"
   }
 }

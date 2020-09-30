@@ -1,7 +1,8 @@
 import React from 'react';
 import './Calendar.scss';
 
-import { observable } from 'mobx';
+import { observable, observe, toJS } from 'mobx';
+import { observer } from 'mobx-react';
 import { chunk } from 'lodash';
 
 interface Props {
@@ -11,9 +12,9 @@ interface Props {
 }
 
 class Calendar extends React.Component<Props, {}> {
-	@observable year?: number; // 选择的年份数据;
-	@observable month?: number; // 选择的月份数据;
-	@observable day?: number; // 选择的是哪天;
+	@observable year: number; // 选择的年份数据;
+	@observable month: number; // 选择的月份数据;
+	@observable day: number; // 选择的是哪天;
 	@observable // 今天的年、月、日信息
 	todayDate: {
 		year?: number;
@@ -21,7 +22,7 @@ class Calendar extends React.Component<Props, {}> {
 		day?: number;
 	} = {};
 	@observable
-	monthData?: { year: number; month: number; day: number }[][]; // 月份数据
+	monthData: { year: number; month: number; day: number }[][]; // 月份数据
 	@observable
 	selectDate: {
 		// 当前选中的日期
@@ -30,7 +31,11 @@ class Calendar extends React.Component<Props, {}> {
 		day?: number;
 	} = {};
 
-	componentDidMount() {}
+	componentDidMount() {
+		this.initDate();
+		console.log(this.todayDate, this.year, this.month);
+		console.log(toJS(this.monthData));
+	}
 
 	/**
 	 * @description 初始化当前时间
@@ -50,7 +55,7 @@ class Calendar extends React.Component<Props, {}> {
 			// 当前年
 			this.year = date.getFullYear();
 			// 当前月;
-			this.month = date.getMonth();
+			this.month = date.getMonth() + 1;
 			// 当前日;
 			this.day = date.getDate();
 
@@ -62,7 +67,7 @@ class Calendar extends React.Component<Props, {}> {
 			this.todayDate = { ...current };
 			this.selectDate = { ...current };
 			// 根据年月算出天数信息;
-			// this.monthData
+			this.monthData = this.getMonthDays(this.year, this.month);
 		}
 	}
 
@@ -78,6 +83,7 @@ class Calendar extends React.Component<Props, {}> {
 			year = today.getFullYear();
 			month = today.getMonth() + 1;
 		}
+
 		// 获取当月第一天
 		let firstDay = new Date(year, month - 1, 1);
 		// 获取当月第一天是星期几
@@ -96,17 +102,216 @@ class Calendar extends React.Component<Props, {}> {
 		let lastDateOfLastMonth = lastDayOfLastMonth.getDate();
 		// 获取上个月最后一天是星期几
 		let lastWeekDayOfLastMonth = firstDayWeekDay - 1;
+
+		for (let i = 0; i < 7 * 6; i++) {
+			let date = i - lastWeekDayOfLastMonth;
+			let showDate = date;
+			let thisYear = year;
+			let thisMonth = month;
+			// 上个月
+			if (date <= 0) {
+				thisMonth = month - 1;
+				// 上个月在本月42格日历上显示的日期
+				showDate = lastDateOfLastMonth + date;
+			} else if (date > lastDate) {
+				// 下个月
+				thisMonth = month + 1;
+				// 下个月在本月42格日历上显示的日期
+				showDate = showDate - lastDate;
+			}
+			// 上一年
+			if (thisMonth === 0) {
+				thisMonth = 12;
+				thisYear -= 1;
+			}
+			// 下一年
+			if (thisMonth === 13) {
+				thisMonth = 1;
+				thisYear += 1;
+			}
+
+			ret.push({
+				year: thisYear,
+				month: thisMonth,
+				day: showDate,
+			});
+		}
+
+		//  拆分为7个一行的多维数组
+		return chunk(ret, 7);
+	}
+
+	/**
+	 *
+	 * @description 通过对年月日的判断 返回相对应的clssName
+	 * @param {{ year: number; month: number; day: number }} current
+	 * @returns {string} move 不可选的日期 action 选中的日期
+	 * @memberof Calendar
+	 */
+	returnDateClassName(current: {
+		year: number;
+		month: number;
+		day: number;
+	}): string {
+		let className = '';
+		const { year, month, day } = current;
+		if (this.todayDate.year && this.todayDate.month && this.todayDate.day) {
+			// 选择的年份大于今年的年份
+			if (this.year > this.todayDate.year) {
+				className = 'move';
+				// 选择的月份大于今天的月份
+			} else if (this.month > this.todayDate.month) {
+				className = 'move';
+				// 当天的月份和数据的月份不一样
+			} else if (this.month !== month) {
+				className = 'move';
+				// 天数大于当前的天数
+			} else if (
+				year === this.todayDate.year &&
+				month === this.todayDate.month &&
+				day > this.todayDate.day
+			) {
+				className = 'move';
+				// 当前选中的数据
+			} else if (
+				year === this.selectDate.year &&
+				month === this.selectDate.month &&
+				day === this.selectDate.day
+			) {
+				className = 'active';
+			}
+		}
+
+		return className;
+	}
+
+	/**
+	 *
+	 * @description 修改年/月信息
+	 * @param {string} type year还是month
+	 * @param {number} method true为加 false为减
+	 * @memberof Calendar
+	 */
+	changeDateInfo(type: 'year' | 'month', method?: boolean) {
+		if (type === 'year') {
+			if (method) {
+				this.year -= 1;
+			} else {
+				this.year += 1;
+			}
+		}
+		if (type === 'month') {
+			if (method) {
+				this.month -= 1;
+			} else {
+				this.month += 1;
+			}
+			// 边界判断
+			if (this.month > 12) {
+				this.year += 1;
+				this.month -= 12;
+			}
+			if (this.month === 0) {
+				this.year -= 1;
+				this.month = 12;
+			}
+		}
+		this.monthData = this.getMonthDays(this.year, this.month);
 	}
 
 	render() {
+		const { style } = this.props;
 		return (
-			<div className="calendar">
-				<div className="calendar-year-month"></div>
-				<div className="calendar-weekday"></div>
-				<div className="calendar-day"></div>
+			<div className="calendar-component-all" style={style}>
+				<div className="calendar-switch-all">
+					<div className="calendar-left-all">
+						<svg
+							className="calendar-switch-year"
+							onClick={() => {
+								this.changeDateInfo('year', true);
+							}}
+						>
+							<use xlinkHref="#icon-32rilizuoqiehuan"></use>
+						</svg>
+						<svg
+							className="calendar-switch-month"
+							onClick={() => {
+								this.changeDateInfo('month', true);
+							}}
+						>
+							<use xlinkHref="#icon-zuoqiehuan"></use>
+						</svg>
+					</div>
+					<div className="calendar-middle-content">
+						{this.year}年 {this.month}月
+					</div>
+					<div className="calendar-right-all">
+						<svg
+							className="calendar-switch-year"
+							onClick={() => {
+								this.changeDateInfo('month');
+								console.log(this.year);
+							}}
+						>
+							<use xlinkHref="#icon-youqiehuan"></use>
+						</svg>
+						<svg
+							className="calendar-switch-month"
+							onClick={() => {
+								this.changeDateInfo('year');
+							}}
+						>
+							<use xlinkHref="#icon-32riliyouqiehuan"></use>
+						</svg>
+					</div>
+				</div>
+				<div className="calendar-week-all">
+					<div>日</div>
+					<div>一</div>
+					<div>二</div>
+					<div>三</div>
+					<div>四</div>
+					<div>五</div>
+					<div>六</div>
+				</div>
+				<div className="calendar-data-all">
+					{this.monthData &&
+						this.monthData.map((item, index) => {
+							return (
+								<div className="calendar-data-gruop" key={index}>
+									{item.map((result) => {
+										return (
+											<div
+												className={`calendar-data-single ${this.returnDateClassName(
+													result
+												)}`}
+												key={result.day}
+												onClick={() => {
+													// 当前日期不可选的话 直接return
+													if (this.returnDateClassName(result) === 'move') {
+														return;
+													}
+													this.day = result.day;
+													this.selectDate = {
+														year: this.year,
+														month: this.month,
+														day: this.day,
+													};
+													// onChang &&
+													// 	onChang(`${this.year}-${this.month}-${this.day}`);
+												}}
+											>
+												{result.day}
+											</div>
+										);
+									})}
+								</div>
+							);
+						})}
+				</div>
 			</div>
 		);
 	}
 }
 
-export default Calendar;
+export default observer(Calendar);
