@@ -315,3 +315,10 @@ class Calendar extends React.Component<Props, {}> {
 }
 
 export default observer(Calendar);
+
+export enum GisOyType {
+	Station = 'Station',
+}
+
+const gisOyProjectType: { [x: string]: { w: number; h: number } } = {};
+gisOyProjectType[GisOyType.Station] = { w: 22, h: 22 };
