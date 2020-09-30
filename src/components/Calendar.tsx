@@ -160,7 +160,10 @@ class Calendar extends React.Component<Props, {}> {
 			if (this.year > this.todayDate.year) {
 				className = 'move';
 				// 选择的月份大于今天的月份
-			} else if (this.month > this.todayDate.month) {
+			} else if (
+				this.year === this.todayDate.year &&
+				this.month > this.todayDate.month
+			) {
 				className = 'move';
 				// 当天的月份和数据的月份不一样
 			} else if (this.month !== month) {
